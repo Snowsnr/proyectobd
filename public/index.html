@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Mi Proyecto Node + MySQL</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; background-color: #f4f4f9; }
+        h1 { color: #333; }
+        ul { list-style-type: none; padding: 0; }
+        li { background: white; margin: 10px 0; padding: 15px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .email { color: #777; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <h1>Lista de Usuarios</h1>
+    <ul id="lista-usuarios">
+        <li>Cargando...</li>
+    </ul>
+
+    <script>
+        // Esta función se ejecuta al cargar la página
+        async function cargarUsuarios()
+        {
+            const respuesta = await fetch('/usuarios'); // Llama a TU servidor
+            const usuarios = await respuesta.json();
+            
+            const lista = document.getElementById('lista-usuarios');
+            lista.innerHTML = ''; // Limpiar "Cargando..."
+
+            usuarios.forEach(usuario => {
+                const item = document.createElement('li');
+                item.innerHTML = `
+                    <strong>${usuario.nombre}</strong><br>
+                    <span class="email">${usuario.email}</span>
+                `;
+                lista.appendChild(item);
+            });
+        }
+
+        cargarUsuarios();
+    </script>
+</body>
+</html>
